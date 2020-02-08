@@ -1,7 +1,7 @@
 import random
 
 
-with open(r"D:\Python38\wordsgame\ruwords.txt", "r", encoding="utf-8") as file:
+with open(r"ruwords.txt", "r", encoding="utf-8") as file:
     wordsList = file.read().splitlines()
 wordsUsed = []
 firstLetterPoints = {"а":4, "б":2, "в":2, "г":2, "д":3, "е":3, "ё":3, "ж":5, "з":4, "и":3, "й":3, "к":1, "л":1, "м":2, "н":1, "о":2, "п":1, "р":1, "с":1, "т":1, "у":4, "ф":3, "х":4, "ц":3, "ч":3, "ш":3, "щ":5, "ъ":15, "ы":15, "ь":15, "э":5, "ю":5, "я":4}
@@ -23,14 +23,14 @@ def checkLastLetterForBad(playerWord):
 	global lastLetter
 	shift = -1
 	while True:
-		lastLetter = playerWord[shift]
-		if playerWord[shift] in badLetter:
+		lastLetter = playerWord[shift].lower()
+		if playerWord[shift].lower() in badLetter:
 			shift -= 1
 			continue
-		if playerWord[shift] == "й":
+		if playerWord[shift].lower() == "й":
 			lastLetter = "и"
 			break
-		if playerWord[shift] == "ё":
+		if playerWord[shift].lower() == "ё":
 			lastLetter = "е"
 			break
 		break
@@ -42,7 +42,7 @@ def countPoints(playerWord):
 	global playerTwoPoints
 	global earnedPoints
 	earnedPoints = 0	
-	earnedPoints = firstLetterPoints.get(playerWord[0]) + lastLetterPoints.get(playerWord[-1])
+	earnedPoints = firstLetterPoints.get(playerWord[0].lower()) + lastLetterPoints.get(playerWord[-1].lower())
 	print("Заработано", earnedPoints, end="") 
 	if earnedPoints >= 11 and earnedPoints <= 19:
 		print(" очков.")
@@ -60,22 +60,22 @@ def checkEnterOne(playerWord):
 	global earnedPoints
 	global lastLetter
 	while True:
-		if playerWord in wordsUsed:
+		if playerWord.lower() in wordsUsed:
 			print ( "Слово ","\"", playerWord, "\""," уже было", sep="")
 			playerWord = input ( "Введите другое слово: ")
 			continue
-		if playerWord not in wordsList:
+		if playerWord.lower() not in wordsList:
 			print ( "Я не знаю такого слова")
 			playerWord = input ( "Введите другое слово: ")
 			continue
-		if playerWord[0] != lastLetter:
+		if playerWord[0].lower() != lastLetter:
 			print ( "Cлово начинается не с буквы " + "\"" + lastLetter + "\"", sep="")
 			playerWord = input ( "Введите другое слово: ")
 			continue
 		break
 
 	print ( "Слово ","\"", playerWord,"\""," принято", sep="")
-	wordsUsed.append(playerWord)
+	wordsUsed.append(playerWord.lower())
 	checkLastLetterForBad(playerWord)
 	countPoints(playerWord)
 	playerOnePoints = playerOnePoints + earnedPoints
@@ -89,15 +89,15 @@ def checkEnterTwo(playerWord):
 	global lastLetter
 
 	while True:
-		if playerWord in wordsUsed:
+		if playerWord.lower() in wordsUsed:
 			print ( "Слово ","\"", playerWord, "\""," уже было", sep="")
 			playerWord = input ( "Введите другое слово: ")
 			continue
-		if playerWord not in wordsList:
+		if playerWord.lower() not in wordsList:
 			print ( "Я не знаю такого слова")
 			playerWord = input ( "Введите другое слово: ")
 			continue
-		if playerWord[0] != lastLetter:
+		if playerWord[0].lower() != lastLetter:
 			print ( "Cлово начинается не с буквы " + "\"" + lastLetter + "\"", sep="")
 			playerWord = input ( "Введите другое слово: ")
 			continue
@@ -105,7 +105,7 @@ def checkEnterTwo(playerWord):
 	
 
 	print ( "Слово ","\"", playerWord,"\""," принято", sep="")
-	wordsUsed.append(playerWord)
+	wordsUsed.append(playerWord.lower())
 	countPoints(playerWord)
 	checkLastLetterForBad(playerWord)
 	playerTwoPoints = playerTwoPoints + earnedPoints
